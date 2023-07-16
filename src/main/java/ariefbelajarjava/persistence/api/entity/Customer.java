@@ -1,4 +1,4 @@
-package ariefbelajarjava.persistenceapi.entity;
+package ariefbelajarjava.persistence.api.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
