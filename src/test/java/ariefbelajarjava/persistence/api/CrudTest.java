@@ -48,4 +48,19 @@ public class CrudTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void update() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Customer customer = entityManager.find(Customer.class, "1");
+        customer.setName("Arief Karditya");
+
+        entityManager.merge(customer);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
