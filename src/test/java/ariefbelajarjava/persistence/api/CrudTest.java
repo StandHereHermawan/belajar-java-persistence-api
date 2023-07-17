@@ -63,4 +63,18 @@ public class CrudTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void remove() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Customer customer = entityManager.find(Customer.class, "1");
+
+        entityManager.remove(customer);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
