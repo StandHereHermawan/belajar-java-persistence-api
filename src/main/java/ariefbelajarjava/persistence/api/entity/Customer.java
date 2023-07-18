@@ -19,9 +19,9 @@ public class Customer {
     @Column(name = "primary_email")
     private String primary_email;
 
-    private Boolean married;
-
     private Byte age;
+
+    private Boolean married;
 
     public Boolean getMarried() {
         return married;
