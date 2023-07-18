@@ -8,7 +8,9 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <!-- Entity Classes -->
         <class>ariefbelajarjava.persistence.api.entity.Customer</class>
+        <class>ariefbelajarjava.persistence.api.entity.Category</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
