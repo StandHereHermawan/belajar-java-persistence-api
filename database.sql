@@ -29,3 +29,6 @@ ALTER TABLE customers
 
 ALTER TABLE customers
     Add column married BOOLEAN;
+
+ALTER TABLE customers
+add column type VARCHAR(50);
