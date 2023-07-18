@@ -32,3 +32,7 @@ ALTER TABLE customers
 
 ALTER TABLE customers
 add column type VARCHAR(50);
+
+delete
+from customers
+where id = 2;
