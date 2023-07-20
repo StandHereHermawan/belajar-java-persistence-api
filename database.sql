@@ -36,3 +36,9 @@ add column type VARCHAR(50);
 delete
 from customers
 where id = 2;
+
+ALTER TABLE categories
+ADD COLUMN created_at TIMESTAMP;
+
+ALTER TABLE categories
+ADD COLUMN updated_at TIMESTAMP;
