@@ -48,7 +48,7 @@ CREATE TABLE images
     id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name        VARCHAR(100) NOT NULL,
     description TEXT,
-    images      BLOB
+    image      BLOB
 ) ENGINE InnoDB;
 
 select * from images;
