@@ -24,7 +24,7 @@ public class LargeObjectTest {
         image.setName("Contoh Image");
         image.setDescription("Contoh deskripsi Image");
 
-        byte[] bytes = Files.readAllBytes(Path.of(getClass().getResource("/images/troll.png")));
+        byte[] bytes = Files.readAllBytes(Path.of(getClass().getResource("/images/troll.png").getPath()));
 
         image.setImage(bytes);
 
