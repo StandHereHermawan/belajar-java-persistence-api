@@ -38,7 +38,17 @@ from customers
 where id = 2;
 
 ALTER TABLE categories
-ADD COLUMN created_at TIMESTAMP;
+    ADD COLUMN created_at TIMESTAMP;
 
 ALTER TABLE categories
-ADD COLUMN updated_at TIMESTAMP;
+    ADD COLUMN updated_at TIMESTAMP;
+
+CREATE TABLE images
+(
+    id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL,
+    description TEXT,
+    images      BLOB
+) ENGINE InnoDB;
+
+select * from images;
