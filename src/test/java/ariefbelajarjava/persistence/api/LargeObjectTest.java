@@ -8,13 +8,14 @@ import jakarta.persistence.EntityTransaction;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class LargeObjectTest {
 
     @Test
-    void largeObject() throws IOException {
+    void largeObject() {
         EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -24,9 +25,11 @@ public class LargeObjectTest {
         image.setName("Contoh Image");
         image.setDescription("Contoh deskripsi Image");
 
-        byte[] bytes = Files.readAllBytes(Path.of(getClass().getResource("/images/troll.png").getPath()));
-
-        image.setImage(bytes);
+        try (InputStream inputStream = getClass().getResourceAsStream("/images/troll.png")) {
+            image.setImage(inputStream.readAllBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         entityManager.persist(image);
 
