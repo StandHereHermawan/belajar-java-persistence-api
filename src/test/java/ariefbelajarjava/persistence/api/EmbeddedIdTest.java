@@ -2,8 +2,6 @@ package ariefbelajarjava.persistence.api;
 
 import ariefbelajarjava.persistence.api.entity.Department;
 import ariefbelajarjava.persistence.api.entity.DepartmentId;
-import ariefbelajarjava.persistence.api.entity.Member;
-import ariefbelajarjava.persistence.api.entity.Name;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
