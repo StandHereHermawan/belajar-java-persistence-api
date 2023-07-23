@@ -64,4 +64,16 @@ CREATE TABLE members
     last_name   VARCHAR(100)
 ) ENGINE = InnoDB;
 
-SELECT * FROM members;
+SELECT *
+FROM members;
+
+CREATE TABLE departments
+(
+    company_id    VARCHAR(100) NOT NULL,
+    department_id VARCHAR(100) NOT NULL,
+    name          VARCHAR(150) NOT NULL,
+    PRIMARY KEY (company_id, department_id)
+) ENGINE InnoDB;
+
+select *
+from departments;
