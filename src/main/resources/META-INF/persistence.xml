@@ -13,6 +13,7 @@
         <class>ariefbelajarjava.persistence.api.entity.Category</class>
         <class>ariefbelajarjava.persistence.api.entity.Image</class>
         <class>ariefbelajarjava.persistence.api.entity.Member</class>
+        <class>ariefbelajarjava.persistence.api.entity.Department</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
