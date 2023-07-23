@@ -77,3 +77,14 @@ CREATE TABLE departments
 
 select *
 from departments;
+
+CREATE TABLE hobbies
+(
+    id        INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    member_id INT          NOT NULL,
+    name      VARCHAR(150) NOT NULL,
+    FOREIGN KEY fk_members_hobbies (member_id)
+        REFERENCES members (id)
+) ENGINE = InnoDB;
+
+SELECT * FROM hobbies;
