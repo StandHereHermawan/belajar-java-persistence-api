@@ -36,4 +36,21 @@ public class CollectionTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void updateOperation() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Member member = entityManager.find(Member.class, 2);
+
+        member.getHobbies().add("DIY Bongkar CVT Vario");
+
+        entityManager.merge(member);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
