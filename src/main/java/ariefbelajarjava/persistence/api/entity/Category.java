@@ -7,7 +7,10 @@ import java.util.Calendar;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+@EntityListeners({
+        UpdatedAtAware.class
+})
+public class Category implements UpdatedAtAware{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
