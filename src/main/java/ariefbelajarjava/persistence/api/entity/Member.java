@@ -36,6 +36,7 @@ public class Member {
     @Transient
     private String fullName;
 
+    @PostLoad
     public void postLoad() {
         fullName = name.getTitle() + ". " + name.getFirstName() + " " + name.getMiddleName()
                 + " " + name.getLastName();
