@@ -1,5 +1,6 @@
 package ariefbelajarjava.persistence.api.entity;
 
+import ariefbelajarjava.persistence.api.listener.UpdatedAtListener;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.util.Calendar;
 @Entity
 @Table(name = "categories")
 @EntityListeners({
-        UpdatedAtAware.class
+        UpdatedAtListener.class
 })
 public class Category implements UpdatedAtAware{
 
