@@ -18,6 +18,9 @@ public class User {
     )
     private Credential credential;
 
+    @OneToOne(mappedBy = "user")
+    private Wallet wallet;
+
     public Credential getCredential() {
         return credential;
     }
