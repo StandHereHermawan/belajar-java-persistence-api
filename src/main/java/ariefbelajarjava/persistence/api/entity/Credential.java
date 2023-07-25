@@ -2,6 +2,7 @@ package ariefbelajarjava.persistence.api.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +15,17 @@ public class Credential {
     private String email;
 
     private String password;
+
+    @OneToOne(mappedBy = "credential")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getId() {
         return id;

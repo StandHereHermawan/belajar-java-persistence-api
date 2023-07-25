@@ -1,8 +1,6 @@
 package ariefbelajarjava.persistence.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +10,21 @@ public class User {
     private String id;
 
     private String name;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn(
+            name = "id",
+            referencedColumnName = "id"
+    )
+    private Credential credential;
+
+    public Credential getCredential() {
+        return credential;
+    }
+
+    public void setCredential(Credential credential) {
+        this.credential = credential;
+    }
 
     public String getId() {
         return id;
