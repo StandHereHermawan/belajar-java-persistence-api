@@ -6,6 +6,7 @@ import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class EntityRelationshipTest {
@@ -29,6 +30,23 @@ public class EntityRelationshipTest {
         user.setName("Hilmi Akbar");
 
         entityManager.persist(user);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void oneToOneFind() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        User user = entityManager.find(User.class, "Orang_Bogor");
+        Assertions.assertNotNull(user.getCredential());
+
+        Assertions.assertEquals("HilmiAkbar@example.com",user.getCredential().getEmail());
+        Assertions.assertEquals("rahasia",user.getCredential().getPassword());
 
         entityTransaction.commit();
         entityManager.close();
