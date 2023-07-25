@@ -119,4 +119,16 @@ CREATE TABLE users
     name VARCHAR(150) NOT NULL
 ) ENGINE = InnoDB;
 
-SELECT * FROM users;
+SELECT *
+FROM users;
+
+CREATE TABLE wallet
+(
+    id      INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(100) NOT NULL,
+    balance BIGINT       NOT NULL,
+    FOREIGN KEY fk_users_wallet (user_id) REFERENCES users (id)
+) ENGINE = InnoDB;
+
+SELECT *
+FROM wallet;
