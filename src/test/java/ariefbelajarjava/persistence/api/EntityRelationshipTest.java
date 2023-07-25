@@ -2,6 +2,7 @@ package ariefbelajarjava.persistence.api;
 
 import ariefbelajarjava.persistence.api.entity.Credential;
 import ariefbelajarjava.persistence.api.entity.User;
+import ariefbelajarjava.persistence.api.entity.Wallet;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -47,6 +48,24 @@ public class EntityRelationshipTest {
 
         Assertions.assertEquals("HilmiAkbar@example.com",user.getCredential().getEmail());
         Assertions.assertEquals("rahasia",user.getCredential().getPassword());
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void oneToOneJoinColumnCreateOperations() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        User user = entityManager.find(User.class, "Orang_Bogor");
+
+        Wallet wallet = new Wallet();
+        wallet.setUser(user);
+        wallet.setBalance(1_000_000L);
+        entityManager.persist(wallet);
 
         entityTransaction.commit();
         entityManager.close();
