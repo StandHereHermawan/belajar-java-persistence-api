@@ -102,3 +102,21 @@ CREATE TABLE skills
 
 SELECT *
 FROM skills;
+
+CREATE TABLE credentials
+(
+    id       VARCHAR(100) NOT NULL PRIMARY KEY,
+    email    VARCHAR(150) NOT NULL,
+    password VARCHAR(150) NOT NULL
+) ENGINE = InnoDB;
+
+SELECT *
+FROM credentials;
+
+CREATE TABLE users
+(
+    id   VARCHAR(100) NOT NULL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL
+) ENGINE = InnoDB;
+
+SELECT * FROM users;
