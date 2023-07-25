@@ -45,9 +45,11 @@ public class EntityRelationshipTest {
 
         User user = entityManager.find(User.class, "Orang_Bogor");
         Assertions.assertNotNull(user.getCredential());
+        Assertions.assertNotNull(user.getWallet());
 
         Assertions.assertEquals("HilmiAkbar@example.com",user.getCredential().getEmail());
-        Assertions.assertEquals("rahasia",user.getCredential().getPassword());
+        Assertions.assertEquals("rahasia", user.getCredential().getPassword());
+        Assertions.assertEquals(1_000_000L, user.getWallet().getBalance());
 
         entityTransaction.commit();
         entityManager.close();
