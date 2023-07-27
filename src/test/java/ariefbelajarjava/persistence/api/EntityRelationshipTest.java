@@ -1,8 +1,6 @@
 package ariefbelajarjava.persistence.api;
 
-import ariefbelajarjava.persistence.api.entity.Credential;
-import ariefbelajarjava.persistence.api.entity.User;
-import ariefbelajarjava.persistence.api.entity.Wallet;
+import ariefbelajarjava.persistence.api.entity.*;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -68,6 +66,53 @@ public class EntityRelationshipTest {
         wallet.setUser(user);
         wallet.setBalance(1_000_000L);
         entityManager.persist(wallet);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void oneToManyInsert() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Brand brand = new Brand();
+        brand.setId("Byu");
+        brand.setName("Byu provider Digital");
+        entityManager.persist(brand);
+
+        Product product1 = new Product();
+        product1.setId("p1");
+        product1.setName("Kuota 75GB");
+        product1.setBrand(brand);
+        product1.setPrice(151_099L);
+        entityManager.persist(product1);
+
+        Product product2 = new Product();
+        product2.setId("p2");
+        product2.setName("Kuota 100GB");
+        product2.setBrand(brand);
+        product2.setPrice(180_000L);
+        entityManager.persist(product2);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void oneToManyFind() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Brand brand = entityManager.find(Brand.class, "Byu");
+        Assertions.assertNotNull(brand.getProducts());
+        Assertions.assertEquals(2,brand.getProducts().size());
+
+        brand.getProducts().forEach(product -> System.out.println(product.getName()));
 
         entityTransaction.commit();
         entityManager.close();
