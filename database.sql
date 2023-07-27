@@ -132,3 +132,12 @@ CREATE TABLE wallet
 
 SELECT *
 FROM wallet;
+
+CREATE TABLE brands
+(
+    id          VARCHAR(100) NOT NULL PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL,
+    description VARCHAR(500)
+)ENGINE = InnoDB;
+
+SELECT * FROM brands;
