@@ -141,4 +141,26 @@ public class EntityRelationshipTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void manyToManyUpdate() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        User user = entityManager.find(User.class, "Orang_Bogor");
+        Product product = null;
+
+        for (Product item : user.getLikes()) {
+            product = item;
+            break;
+        }
+
+        user.getLikes().remove(product);
+        entityManager.merge(user);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
