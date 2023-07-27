@@ -138,6 +138,20 @@ CREATE TABLE brands
     id          VARCHAR(100) NOT NULL PRIMARY KEY,
     name        VARCHAR(100) NOT NULL,
     description VARCHAR(500)
-)ENGINE = InnoDB;
+) ENGINE = InnoDB;
 
-SELECT * FROM brands;
+SELECT *
+FROM brands;
+
+CREATE TABLE products
+(
+    id          VARCHAR(100) NOT NULL PRIMARY KEY,
+    brand_id    VARCHAR(100) NOT NULL,
+    name        VARCHAR(100) NOT NULL,
+    price       BIGINT       NOT NULL,
+    description VARCHAR(500),
+    FOREIGN KEY fk_brands_products (brand_id) REFERENCES brands (id)
+) ENGINE = InnoDB;
+
+SELECT *
+FROM products;
