@@ -8,6 +8,8 @@ import jakarta.persistence.EntityTransaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 public class EntityRelationshipTest {
 
     @Test
@@ -113,6 +115,28 @@ public class EntityRelationshipTest {
         Assertions.assertEquals(2,brand.getProducts().size());
 
         brand.getProducts().forEach(product -> System.out.println(product.getName()));
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void manyToManyInsert() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        User user = entityManager.find(User.class, "Orang_Bogor");
+        user.setLikes(new HashSet<>());
+
+        Product product1 = entityManager.find(Product.class, "p1");
+        Product product2 = entityManager.find(Product.class, "p2");
+
+        user.getLikes().add(product1);
+        user.getLikes().add(product2);
+
+        entityManager.merge(user);
 
         entityTransaction.commit();
         entityManager.close();
