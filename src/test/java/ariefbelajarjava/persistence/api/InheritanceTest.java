@@ -7,6 +7,7 @@ import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class InheritanceTest {
@@ -34,6 +35,24 @@ public class InheritanceTest {
         vicePresident.setName("Hilmi Akbar");
         vicePresident.setTotalManager(5);
         entityManager.persist(vicePresident);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void singleTableFind() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Manager manager = entityManager.find(Manager.class, "manager-1");
+        Assertions.assertEquals("Faris Husein", manager.getName());
+
+        Employee employee = entityManager.find(Employee.class, "vp-1");
+        VicePresident vicePresident = (VicePresident) employee;
+        Assertions.assertEquals("Hilmi Akbar", vicePresident.getName());
 
         entityTransaction.commit();
         entityManager.close();
