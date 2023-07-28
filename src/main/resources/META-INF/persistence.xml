@@ -19,6 +19,10 @@
         <class>ariefbelajarjava.persistence.api.entity.Wallet</class>
         <class>ariefbelajarjava.persistence.api.entity.Product</class>
         <class>ariefbelajarjava.persistence.api.entity.Brand</class>
+        <class>ariefbelajarjava.persistence.api.entity.Department</class>
+        <class>ariefbelajarjava.persistence.api.entity.Employee</class>
+        <class>ariefbelajarjava.persistence.api.entity.Manager</class>
+        <class>ariefbelajarjava.persistence.api.entity.VicePresident</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
