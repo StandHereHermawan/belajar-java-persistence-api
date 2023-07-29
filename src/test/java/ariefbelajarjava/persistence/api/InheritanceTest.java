@@ -79,4 +79,18 @@ public class InheritanceTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void joinedTableFind() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        PaymentGopay gopay = entityManager.find(PaymentGopay.class, "gopay1");
+        PaymentCreditCard creditCard = entityManager.find(PaymentCreditCard.class, "cc1");
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
