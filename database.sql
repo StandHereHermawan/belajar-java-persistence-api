@@ -217,4 +217,16 @@ CREATE TABLE transactions
     created_at TIMESTAMP    NOT NULL
 ) ENGINE = InnoDB;
 
-SELECT * FROM transactions;
+SELECT *
+FROM transactions;
+
+CREATE TABLE transactions_credit
+(
+    id            VARCHAR(100) NOT NULL PRIMARY KEY,
+    balance       BIGINT       NOT NULL,
+    created_at    TIMESTAMP    NOT NULL,
+    credit_amount BIGINT       NOT NULL
+) ENGINE = InnoDB;
+
+SELECT *
+FROM transactions_credit;
