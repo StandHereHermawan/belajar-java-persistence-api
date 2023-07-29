@@ -177,4 +177,13 @@ CREATE TABLE employees
     total_employee INT
 ) ENGINE = InnoDB;
 
-SELECT * FROM employees;
+SELECT *
+FROM employees;
+
+CREATE TABLE payments
+(
+    id    VARCHAR(100) NOT NULL PRIMARY KEY,
+    amount BIGINT       NOT NULL
+) ENGINE = InnoDB;
+
+SELECT * FROM payments;
