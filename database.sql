@@ -198,3 +198,14 @@ CREATE TABLE payments_gopay
 
 SELECT *
 FROM payments_gopay;
+
+CREATE TABLE payments_credit_card
+(
+    id          VARCHAR(100) NOT NULL PRIMARY KEY,
+    masked_card VARCHAR(100) NOT NULL,
+    bank        VARCHAR(100) NOT NULL,
+    FOREIGN KEY fk_payments_credit_card (id) REFERENCES payments (id)
+) ENGINE = InnoDB;
+
+SELECT *
+FROM payments_credit_card;
