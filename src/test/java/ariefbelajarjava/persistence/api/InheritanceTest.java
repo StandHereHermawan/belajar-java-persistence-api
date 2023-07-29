@@ -1,8 +1,6 @@
 package ariefbelajarjava.persistence.api;
 
-import ariefbelajarjava.persistence.api.entity.Employee;
-import ariefbelajarjava.persistence.api.entity.Manager;
-import ariefbelajarjava.persistence.api.entity.VicePresident;
+import ariefbelajarjava.persistence.api.entity.*;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -53,6 +51,30 @@ public class InheritanceTest {
         Employee employee = entityManager.find(Employee.class, "vp-1");
         VicePresident vicePresident = (VicePresident) employee;
         Assertions.assertEquals("Hilmi Akbar", vicePresident.getName());
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void joinedTableInsert() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        PaymentGopay gopay = new PaymentGopay();
+        gopay.setId("gopay1");
+        gopay.setAmount(100_000L);
+        gopay.setGopayId("089999999999");
+        entityManager.persist(gopay);
+
+        PaymentCreditCard creditCard = new PaymentCreditCard();
+        creditCard.setId("cc1");
+        creditCard.setAmount(500_000L);
+        creditCard.setMaskedCard("4555-5555");
+        creditCard.setBank("BCA");
+        entityManager.persist(creditCard);
 
         entityTransaction.commit();
         entityManager.close();
