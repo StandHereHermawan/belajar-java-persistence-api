@@ -230,3 +230,14 @@ CREATE TABLE transactions_credit
 
 SELECT *
 FROM transactions_credit;
+
+CREATE TABLE transactions_debit
+(
+    id           VARCHAR(100) NOT NULL PRIMARY KEY,
+    balance      BIGINT       NOT NULL,
+    created_at   TIMESTAMP    NOT NULL,
+    debit_amount BIGINT       NOT NULL
+) ENGINE = InnoDB;
+
+SELECT *
+FROM transactions_debit;
