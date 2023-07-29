@@ -26,6 +26,9 @@
         <class>ariefbelajarjava.persistence.api.entity.Payment</class>
         <class>ariefbelajarjava.persistence.api.entity.PaymentCreditCard</class>
         <class>ariefbelajarjava.persistence.api.entity.PaymentGopay</class>
+        <class>ariefbelajarjava.persistence.api.entity.Transaction</class>
+        <class>ariefbelajarjava.persistence.api.entity.TransactionDebit</class>
+        <class>ariefbelajarjava.persistence.api.entity.TransactionCredit</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
