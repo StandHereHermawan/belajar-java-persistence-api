@@ -153,4 +153,17 @@ public class InheritanceTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void tablePerClassFindByParent() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Transaction transaction = entityManager.find(Transaction.class, "t1");
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
