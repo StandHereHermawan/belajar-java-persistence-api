@@ -209,3 +209,12 @@ CREATE TABLE payments_credit_card
 
 SELECT *
 FROM payments_credit_card;
+
+CREATE TABLE transactions
+(
+    id         VARCHAR(100) NOT NULL PRIMARY KEY,
+    balance    BIGINT       NOT NULL,
+    created_at TIMESTAMP    NOT NULL
+) ENGINE = InnoDB;
+
+SELECT * FROM transactions;
