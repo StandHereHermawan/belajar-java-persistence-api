@@ -110,7 +110,7 @@ public class InheritanceTest {
     }
 
     @Test
-    void TablePerClassInsert() {
+    void tablePerClassInsert() {
         EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -135,6 +135,20 @@ public class InheritanceTest {
         creditTransaction.setBalance(1_000_000L);
         creditTransaction.setCreditAmount(1_000_000L);
         entityManager.persist(creditTransaction);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void tablePerClassFindByChild() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TransactionDebit transactionDebit = entityManager.find(TransactionDebit.class, "t2");
+        TransactionCredit transactionCredit = entityManager.find(TransactionCredit.class, "t3");
 
         entityTransaction.commit();
         entityManager.close();
