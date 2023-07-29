@@ -182,8 +182,19 @@ FROM employees;
 
 CREATE TABLE payments
 (
-    id    VARCHAR(100) NOT NULL PRIMARY KEY,
+    id     VARCHAR(100) NOT NULL PRIMARY KEY,
     amount BIGINT       NOT NULL
 ) ENGINE = InnoDB;
 
-SELECT * FROM payments;
+SELECT *
+FROM payments;
+
+CREATE TABLE payments_gopay
+(
+    id       VARCHAR(100) NOT NULL PRIMARY KEY,
+    gopay_id VARCHAR(100) NOT NULL,
+    FOREIGN KEY fk_payments_gopay (id) REFERENCES payments (id)
+) ENGINE = InnoDB;
+
+SELECT *
+FROM payments_gopay;
