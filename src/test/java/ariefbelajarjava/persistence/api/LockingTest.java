@@ -29,4 +29,42 @@ public class LockingTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void optimisticLockingDemo1() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Brand brand = entityManager.find(Brand.class, "nokia");
+        brand.setName("Nokia Updated 1st Attempt");
+        brand.setUpdatedAt(LocalDateTime.now());
+
+        try {
+            Thread.sleep(10*1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        entityManager.persist(brand);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void optimisticLockingDemo2() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Brand brand = entityManager.find(Brand.class, "nokia");
+        brand.setName("Nokia Updated 2nd Attempt");
+        brand.setUpdatedAt(LocalDateTime.now());
+        entityManager.persist(brand);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
