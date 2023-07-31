@@ -5,6 +5,7 @@ import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.LockModeType;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -61,6 +62,44 @@ public class LockingTest {
 
         Brand brand = entityManager.find(Brand.class, "nokia");
         brand.setName("Nokia Updated 2nd Attempt");
+        brand.setUpdatedAt(LocalDateTime.now());
+        entityManager.persist(brand);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void pessimisticLockingDemo1() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Brand brand = entityManager.find(Brand.class, "nokia", LockModeType.PESSIMISTIC_WRITE);
+        brand.setName("Nokia Updated 3rd Attempt");
+        brand.setUpdatedAt(LocalDateTime.now());
+
+        try {
+            Thread.sleep(10*1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        entityManager.persist(brand);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void pessimisticLockingDemo2() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Brand brand = entityManager.find(Brand.class, "nokia",LockModeType.PESSIMISTIC_WRITE);
+        brand.setName("Nokia Updated 4th Attempt");
         brand.setUpdatedAt(LocalDateTime.now());
         entityManager.persist(brand);
 
