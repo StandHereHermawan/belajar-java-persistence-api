@@ -146,6 +146,9 @@ ALTER TABLE brands
 ALTER TABLE brands
     ADD COLUMN updated_at TIMESTAMP;
 
+ALTER TABLE brands
+    ADD COLUMN version BIGINT;
+
 SELECT *
 FROM brands;
 
