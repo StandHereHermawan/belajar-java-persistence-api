@@ -59,4 +59,22 @@ public class ManagedEntityTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void updateEntityAfterCommit() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        // managed entity
+        Brand brand = entityManager.find(Brand.class, "apple");
+        entityManager.detach(brand);
+
+        entityTransaction.commit(); // menjadi unmanaged entity dan managed entity sebelumnya dihapus
+        entityManager.close(); // entity manager dihapus
+
+        brand.setName("Apple Test");
+        // Operasi tidak terlaksana karena operasi dilaksanakan setelah commit dan entity manager telah dihapus
+    }
 }
