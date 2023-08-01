@@ -1,6 +1,7 @@
 package ariefbelajarjava.persistence.api;
 
 import ariefbelajarjava.persistence.api.entity.Brand;
+import ariefbelajarjava.persistence.api.entity.Member;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -24,6 +25,28 @@ public class JpaQueryLanguageTest {
 
         for (Brand brand : brands) {
             System.out.println(brand.getId() + " : " + brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+
+    }
+
+    @Test
+    void whereClause() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Member> query = entityManager.createQuery("select m from Member m where " +
+                "m.name.firstName = :firstName and m.name.lastName =:lastName", Member.class);
+        query.setParameter("firstName", "Hilmi");
+        query.setParameter("lastName", "Muharrom");
+
+        List<Member> list = query.getResultList();
+        for (Member member : list) {
+            System.out.println(member.getId() + " : " + member.getFullName());
         }
 
         entityTransaction.commit();
