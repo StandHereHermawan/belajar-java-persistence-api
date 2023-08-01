@@ -43,4 +43,20 @@ public class ManagedEntityTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void detachManagedEntity() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        // managed entity
+        Brand brand = entityManager.find(Brand.class, "apple");
+        entityManager.detach(brand); // unmanaged entity
+        brand.setName("Apple Test");
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
