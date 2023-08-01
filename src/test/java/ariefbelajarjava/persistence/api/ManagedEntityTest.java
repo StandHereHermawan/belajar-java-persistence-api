@@ -28,4 +28,19 @@ public class ManagedEntityTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void managedEntityFind() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        // managed entity
+        Brand brand = entityManager.find(Brand.class, "apple");
+        brand.setName("Apple Indonesia");
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
