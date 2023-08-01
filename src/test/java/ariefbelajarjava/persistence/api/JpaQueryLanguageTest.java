@@ -2,6 +2,7 @@ package ariefbelajarjava.persistence.api;
 
 import ariefbelajarjava.persistence.api.entity.Brand;
 import ariefbelajarjava.persistence.api.entity.Member;
+import ariefbelajarjava.persistence.api.entity.Product;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -47,6 +48,26 @@ public class JpaQueryLanguageTest {
         List<Member> list = query.getResultList();
         for (Member member : list) {
             System.out.println(member.getId() + " : " + member.getFullName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+
+    }
+
+    @Test
+    void joinClause() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Product> query = entityManager.createQuery("select p from Product p join p.brand b where b.name = :brand", Product.class);
+        query.setParameter("brand", "Byu provider Digital");
+
+        List<Product> products = query.getResultList();
+        for (Product product : products) {
+            System.out.println(product.getId() + " : " + product.getName() + " : " + product.getBrand().getName());
         }
 
         entityTransaction.commit();
