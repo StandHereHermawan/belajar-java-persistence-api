@@ -116,4 +116,62 @@ public class JpaQueryLanguageTest {
         entityManager.close();
 
     }
+
+    @Test
+    void insertRandomBrand() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        for (int i = 0; i < 10; i++) {
+            Brand brand = new Brand();
+            brand.setId(String.valueOf(i));
+            brand.setName("Brand" + i);
+            entityManager.persist(brand);
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+
+    }
+
+    @Test
+    void limitOffsetMaxResult() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Brand> query = entityManager.createQuery("select b from Brand b order by b.id", Brand.class);
+        query.setMaxResults(8);
+
+        List<Brand> brands = query.getResultList();
+        for (Brand brand : brands) {
+            System.out.println(brand.getId()+" "+brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void limitOffsetInitialResult() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Brand> query = entityManager.createQuery("select b from Brand b order by b.id", Brand.class);
+        query.setFirstResult(10);
+        query.setMaxResults(5);
+
+        List<Brand> brands = query.getResultList();
+        for (Brand brand : brands) {
+            System.out.println(brand.getId()+" "+brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
