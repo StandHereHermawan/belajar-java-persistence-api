@@ -2,10 +2,7 @@ package ariefbelajarjava.persistence.api;
 
 import ariefbelajarjava.persistence.api.entity.*;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -269,10 +266,29 @@ public class JpaQueryLanguageTest {
 
         List<Object[]> objects = query.getResultList();
         for (Object[] object : objects) {
-            System.out.println("Brand : "+object[0]);
-            System.out.println("Min : "+object[1]);
-            System.out.println("Max : "+object[2]);
-            System.out.println("Average : "+object[3]);
+            System.out.println("Brand : " + object[0]);
+            System.out.println("Min : " + object[1]);
+            System.out.println("Max : " + object[2]);
+            System.out.println("Average : " + object[3]);
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void nativeQuery() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Query query = entityManager.createNativeQuery("select * from brands where brands.created_at is not null", Brand.class);
+        List list = query.getResultList();
+        List<Brand> brands = list;
+
+        for (Brand brand : brands) {
+            System.out.println(brand.getId() + " : " + brand.getName());
         }
 
         entityTransaction.commit();
