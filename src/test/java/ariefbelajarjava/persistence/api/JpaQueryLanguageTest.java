@@ -1,9 +1,6 @@
 package ariefbelajarjava.persistence.api;
 
-import ariefbelajarjava.persistence.api.entity.Brand;
-import ariefbelajarjava.persistence.api.entity.Member;
-import ariefbelajarjava.persistence.api.entity.Product;
-import ariefbelajarjava.persistence.api.entity.User;
+import ariefbelajarjava.persistence.api.entity.*;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -195,7 +192,7 @@ public class JpaQueryLanguageTest {
     }
 
     @Test
-    void selectSomeFieldsUseObjectArrayParentClass() {
+    void selectSomeFieldsUsingObjectArrayParentClass() {
         EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -207,6 +204,27 @@ public class JpaQueryLanguageTest {
         List<Object[]> objects = query.getResultList();
         for (Object[] object : objects) {
             System.out.println(object[0] + " : " + object[1]);
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void selectUsingNewConstructorExpression() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<SimpleBrand> query = entityManager.createQuery("select new " +
+                "ariefbelajarjava.persistence.api.entity.SimpleBrand(b.id,b.name)" +
+                "from Brand b where b.name = :name", SimpleBrand.class);
+        query.setParameter("name", "Xiaomi");
+
+        List<SimpleBrand> simpleBrands = query.getResultList();
+        for (SimpleBrand simpleBrand : simpleBrands) {
+            System.out.println(simpleBrand.getId() + " : " + simpleBrand.getName());
         }
 
         entityTransaction.commit();
