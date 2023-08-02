@@ -294,4 +294,23 @@ public class JpaQueryLanguageTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void namedNativeQuery() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Query query = entityManager.createNamedQuery("Brand.native.findAll", Brand.class);
+        List list = query.getResultList();
+        List<Brand> brands = list;
+
+        for (Brand brand : brands) {
+            System.out.println(brand.getId() + " : " + brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
