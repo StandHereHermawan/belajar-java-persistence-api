@@ -183,11 +183,30 @@ public class JpaQueryLanguageTest {
         entityTransaction.begin();
 
         TypedQuery<Brand> query = entityManager.createNamedQuery("Brand.findAllByName", Brand.class);
-        query.setParameter("name","Xiaomi");
+        query.setParameter("name", "Xiaomi");
 
         List<Brand> brands = query.getResultList();
         for (Brand brand : brands) {
-            System.out.println(brand.getId()+" "+brand.getName());
+            System.out.println(brand.getId() + " " + brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void selectSomeFieldsUseObjectArrayParentClass() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Object[]> query = entityManager.createQuery("select b.id, b.name from Brand b where b.name = :name", Object[].class);
+        query.setParameter("name", "Xiaomi");
+
+        List<Object[]> objects = query.getResultList();
+        for (Object[] object : objects) {
+            System.out.println(object[0] + " : " + object[1]);
         }
 
         entityTransaction.commit();
