@@ -313,4 +313,21 @@ public class JpaQueryLanguageTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void nonQueryManualUpdate() { // Optimistic Locking feature not working with this type query
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        Query query = entityManager.createQuery("update Brand b set b.name = :name where b.id = :id");
+        query.setParameter("name", "Nokia");
+        query.setParameter("id", "nokia");
+        int impactedRecord = query.executeUpdate();
+        System.out.println("Success update " + impactedRecord + " records");
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
