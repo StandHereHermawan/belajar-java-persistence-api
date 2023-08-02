@@ -162,6 +162,15 @@ CREATE TABLE products
     FOREIGN KEY fk_brands_products (brand_id) REFERENCES brands (id)
 ) ENGINE = InnoDB;
 
+INSERT INTO products (id, brand_id, name, price, description)
+    VALUE ('p3','xiaomi','Xiaomi 1',1499000,'Hp Entry Level');
+
+INSERT INTO products (id, brand_id, name, price, description)
+    VALUE ('p4','xiaomi','Xiaomi 2',3599000,'Hp Gaming Mainstream');
+
+INSERT INTO products (id, brand_id, name, price, description)
+    VALUE ('p5','xiaomi','Xiaomi 3',11499000,'Hp High-end');
+
 SELECT *
 FROM products;
 

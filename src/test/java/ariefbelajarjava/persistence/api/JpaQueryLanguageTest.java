@@ -248,4 +248,34 @@ public class JpaQueryLanguageTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void aggregateQueryGroupBy() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Object[]> query = entityManager.createQuery("select " +
+                "b.id," +
+                "min(p.price)," +
+                "max(p.price)," +
+                "avg(p.price)" +
+                "from Product p " +
+                "join p.brand b " +
+                "group by b.id " +
+                "having min(p.price)>:min", Object[].class);
+        query.setParameter("min",50_000L);
+
+        List<Object[]> objects = query.getResultList();
+        for (Object[] object : objects) {
+            System.out.println("Brand : "+object[0]);
+            System.out.println("Min : "+object[1]);
+            System.out.println("Max : "+object[2]);
+            System.out.println("Average : "+object[3]);
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
