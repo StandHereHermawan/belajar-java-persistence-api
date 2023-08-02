@@ -230,4 +230,22 @@ public class JpaQueryLanguageTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void aggregateQuery() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Object[]> query = entityManager.createQuery("select min(p.price),max(p.price),avg(p.price)from Product p", Object[].class);
+        Object[] result = query.getSingleResult();
+
+        System.out.println("Min : " + result[0]);
+        System.out.println("Max : " + result[1]);
+        System.out.println("Average : " + result[2]);
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
