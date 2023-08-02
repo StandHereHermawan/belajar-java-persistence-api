@@ -163,8 +163,27 @@ public class JpaQueryLanguageTest {
         entityTransaction.begin();
 
         TypedQuery<Brand> query = entityManager.createQuery("select b from Brand b order by b.id", Brand.class);
-        query.setFirstResult(10);
-        query.setMaxResults(5);
+        query.setFirstResult(10); // skipped first 10 results
+        query.setMaxResults(5); // only shows 5 data after skipped the first results
+
+        List<Brand> brands = query.getResultList();
+        for (Brand brand : brands) {
+            System.out.println(brand.getId()+" "+brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void namedQuery() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        TypedQuery<Brand> query = entityManager.createNamedQuery("Brand.findAllByName", Brand.class);
+        query.setParameter("name","Xiaomi");
 
         List<Brand> brands = query.getResultList();
         for (Brand brand : brands) {
