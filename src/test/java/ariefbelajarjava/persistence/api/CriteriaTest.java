@@ -8,10 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -162,7 +159,7 @@ public class CriteriaTest {
         criteria.where(
                 builder.equal(b.get("name"), "Byu")
         );
-        // select p from Product p join p.brand b where b.name = 'Samsung'
+        // select p from Product p join p.brand b where b.name = 'Byu'
 
         TypedQuery<Product> query = entityManager.createQuery(criteria);
         List<Product> products = query.getResultList();
