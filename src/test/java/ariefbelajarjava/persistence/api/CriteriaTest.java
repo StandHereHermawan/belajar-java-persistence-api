@@ -113,4 +113,33 @@ public class CriteriaTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void criteriaWhereClauseUsingOrOperator() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Brand> criteriaQuery = criteriaBuilder.createQuery(Brand.class);
+        Root<Brand> b = criteriaQuery.from(Brand.class);
+        criteriaQuery.select(b);
+
+        criteriaQuery.where(
+                criteriaBuilder.or(
+                        criteriaBuilder.equal(b.get("name"),"Xiaomi"),
+                        criteriaBuilder.equal(b.get("name"),"Byu")
+                )
+        );
+
+        TypedQuery<Brand> query = entityManager.createQuery(criteriaQuery);
+        List<Brand> brands = query.getResultList();
+        for (Brand brand : brands) {
+            System.out.println(brand.getId() + " : " + brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
