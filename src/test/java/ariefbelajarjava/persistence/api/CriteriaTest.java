@@ -1,6 +1,7 @@
 package ariefbelajarjava.persistence.api;
 
 import ariefbelajarjava.persistence.api.entity.Brand;
+import ariefbelajarjava.persistence.api.entity.Product;
 import ariefbelajarjava.persistence.api.entity.SimpleBrand;
 import ariefbelajarjava.persistence.api.util.JpaUtil;
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.Test;
 
@@ -137,6 +139,35 @@ public class CriteriaTest {
         List<Brand> brands = query.getResultList();
         for (Brand brand : brands) {
             System.out.println(brand.getId() + " : " + brand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void criteriaJoinClause() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteria = builder.createQuery(Product.class);
+        Root<Product> p = criteria.from(Product.class);
+        Join<Object, Object> b = p.join("brand");
+
+        // select p from Product p join p.brand b
+        criteria.select(p);
+        criteria.where(
+                builder.equal(b.get("name"), "Byu")
+        );
+        // select p from Product p join p.brand b where b.name = 'Samsung'
+
+        TypedQuery<Product> query = entityManager.createQuery(criteria);
+        List<Product> products = query.getResultList();
+        for (Product product : products) {
+            System.out.println(product.getId() + " : " + product.getName());
         }
 
         entityTransaction.commit();
