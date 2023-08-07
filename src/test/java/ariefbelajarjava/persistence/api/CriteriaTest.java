@@ -80,7 +80,34 @@ public class CriteriaTest {
         TypedQuery<SimpleBrand> query = entityManager.createQuery(criteriaQuery);
         List<SimpleBrand> simpleBrands = query.getResultList();
         for (SimpleBrand simpleBrand : simpleBrands) {
-            System.out.println(simpleBrand.getId()+" : "+simpleBrand.getName());
+            System.out.println(simpleBrand.getId() + " : " + simpleBrand.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
+
+    @Test
+    void criteriaWhereClause() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Brand> criteriaQuery = criteriaBuilder.createQuery(Brand.class);
+        Root<Brand> b = criteriaQuery.from(Brand.class);
+        criteriaQuery.select(b);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(b.get("name"), "Xiaomi"),
+                criteriaBuilder.isNotNull(b.get("createdAt"))
+        );
+
+        TypedQuery<Brand> query = entityManager.createQuery(criteriaQuery);
+        List<Brand> brands = query.getResultList();
+        for (Brand brand : brands) {
+            System.out.println(brand.getId() + " : " + brand.getName());
         }
 
         entityTransaction.commit();
