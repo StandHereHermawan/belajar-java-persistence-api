@@ -170,4 +170,38 @@ public class CriteriaTest {
         entityTransaction.commit();
         entityManager.close();
     }
+
+    @Test
+    void criteriaNamedParameter() {
+        EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteria = builder.createQuery(Product.class);
+        Root<Product> p = criteria.from(Product.class);
+        Join<Object, Object> b = p.join("brand");
+
+        ParameterExpression<String> brandParameter = builder.parameter(String.class, "brand");
+
+        // select p from Product p join p.brand b
+        criteria.select(p);
+        criteria.where(
+                builder.equal(b.get("name"), brandParameter)
+        );
+        // select p from Product p join p.brand b where b.name = ''
+
+        TypedQuery<Product> query = entityManager.createQuery(criteria);
+        query.setParameter(brandParameter,"Xiaomi");
+        // select p from Product p join p.brand b where b.name = 'Xiaomi'
+
+        List<Product> products = query.getResultList();
+        for (Product product : products) {
+            System.out.println(product.getId() + " : " + product.getName());
+        }
+
+        entityTransaction.commit();
+        entityManager.close();
+    }
 }
